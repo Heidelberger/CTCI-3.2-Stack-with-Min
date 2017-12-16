@@ -46,18 +46,21 @@ namespace CTCI_3._2_Stack_with_Min
 
     /// <summary>
     /// 
-    /// 1. Create an object with a "value" and a "min below" (both ints)
+    /// 1. Create an object with a "value" and a "min_value" (both ints)
     /// 2. Creaet an array of the above objects
-    /// 3. "Push()" adds the passed int as "value" and "min below"
-    /// 4. Every subsequent Push() adds passed int as "value" and "min below"
-    ///    if passed int is lower than "min below". Otherwise, "min below"
-    ///    is copied from the last object.
+    /// 3. "Push()" adds the passed int as "value" and "min value"
+    /// 4. Every subsequent Push() adds passed_int as "value" and "min_value"
+    ///    if passed int is lower than "min_value". Otherwise, "min_value"
+    ///    is copied from the last object.  In this way, min_value is always 
+    ///    the lowest value of the current object or any object below it on 
+    ///    the stack.  Reading min_value from the object on top of the stack 
+    ///    always provides O(1) access to the minimum value on the entire stack.
     ///    
     /// NOTE: Storing a copy of "min below" with every stack entry is wasteful
     ///       but it's fast and easy to implement/maintain.
-    ///       A better solution would be a separate stack containing min_belows
+    ///       A better solution would be a separate stack containing min_values
     ///       which are pushed/popped only when necessary (e.g., if current val 
-    ///       is less than min_below, push(current_val))
+    ///       is less than min_value, min_stack.Push(current_val))
     ///    
     /// Complexity:     Push() runs in O(1)
     ///                 Pop()  runs in O(1)
@@ -65,9 +68,9 @@ namespace CTCI_3._2_Stack_with_Min
     ///                 Time is constant regardless of input.
     ///                 
     ///                 Memory is O(N)
-    ///                 Stack size is statically defined (unchanging), however
+    ///                 Stack size is statically defined, however
     ///                 new objects are created to place on the stack for every
-    ///                 Push().
+    ///                 Push(). 
     /// 
     /// </summary>
     class StackWithMin
@@ -93,7 +96,7 @@ namespace CTCI_3._2_Stack_with_Min
             if (cursor < 0)
                 min = passed_value;
             else
-                min = Math.Min(soArray[cursor].min_below, passed_value);
+                min = Math.Min(soArray[cursor].min_value, passed_value);
 
             soArray[++cursor] = new StackObject(passed_value, min);
         }
@@ -105,7 +108,7 @@ namespace CTCI_3._2_Stack_with_Min
 
         public int Min()
         {
-            return soArray[cursor].min_below;
+            return soArray[cursor].min_value;
         }
 
         public void PrintStack()
@@ -114,7 +117,7 @@ namespace CTCI_3._2_Stack_with_Min
             Console.WriteLine("Current stack items:");
             for (int i = cursor; i >= 0; --i)
             {
-                Console.WriteLine("Value: " + soArray[i].value + " Min Beneath: " + soArray[i].min_below);
+                Console.WriteLine("Value: " + soArray[i].value + " Min Beneath: " + soArray[i].min_value);
             }
             Console.WriteLine();
         }
@@ -129,12 +132,13 @@ namespace CTCI_3._2_Stack_with_Min
     class StackObject
     {
         public int value;      // the value pushed onto the stack
-        public int min_below;  // represents the lowest value on the stack beneath this object
+        public int min_value;  // represents the lowest value on the stack at the time this object
+                               // was added. This provides O(1) access to lowest value on the stack.
 
         public StackObject(int passed_value, int passed_min)
         {
             value = passed_value;
-            min_below = passed_min;
+            min_value = passed_min;
         }
     }
 }
