@@ -25,11 +25,13 @@ namespace CTCI_3._2_Stack_with_Min
             myStack.PrintStack();
 
             // Pop 5 values off stack
-            Console.WriteLine("Popping: " + myStack.Pop() + " min is now: " + myStack.Min());
-            Console.WriteLine("Popping: " + myStack.Pop() + " min is now: " + myStack.Min());
-            Console.WriteLine("Popping: " + myStack.Pop() + " min is now: " + myStack.Min());
-            Console.WriteLine("Popping: " + myStack.Pop() + " min is now: " + myStack.Min());
-            Console.WriteLine("Popping: " + myStack.Pop() + " min is now: " + myStack.Min());
+            Console.WriteLine("Popping: " + myStack.Pop() + ", min is now: " + myStack.Min());
+            Console.WriteLine("Popping: " + myStack.Pop() + ", min is now: " + myStack.Min());
+            Console.WriteLine("Popping: " + myStack.Pop() + ", min is now: " + myStack.Min());
+            Console.WriteLine("Popping: " + myStack.Pop() + ", min is now: " + myStack.Min());
+            Console.WriteLine("Popping: " + myStack.Pop() + ", min is now: " + myStack.Min());
+
+            myStack.PrintStack();
 
             Console.ReadLine();
         }      
@@ -53,6 +55,9 @@ namespace CTCI_3._2_Stack_with_Min
     ///    
     /// NOTE: Storing a copy of "min below" with every stack entry is wasteful
     ///       but it's fast and easy to implement/maintain.
+    ///       A better solution would be a separate stack containing min_belows
+    ///       which are pushed/popped only when necessary (e.g., if current val 
+    ///       is less than min_below, push(current_val))
     ///    
     /// Complexity:     Push() runs in O(1)
     ///                 Pop()  runs in O(1)
@@ -105,6 +110,8 @@ namespace CTCI_3._2_Stack_with_Min
 
         public void PrintStack()
         {
+            Console.WriteLine();
+            Console.WriteLine("Current stack items:");
             for (int i = cursor; i >= 0; --i)
             {
                 Console.WriteLine("Value: " + soArray[i].value + " Min Beneath: " + soArray[i].min_below);
